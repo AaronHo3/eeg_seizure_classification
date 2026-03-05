@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+.DS_Store
+
+# Data
+/data/raw/
+/data/processed/
+
+# Reports
+/reports/runs/
+/reports/figures/

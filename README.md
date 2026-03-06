@@ -1,5 +1,7 @@
 # EEG Seizure Classification (CHB-MIT)
 
+**NOTICE**: This project is meant purely for learning and discovery.
+
 End-to-end seizure vs non-seizure classification pipeline with patient-level validation.
 
 ## What This Project Includes

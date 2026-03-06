@@ -1,0 +1,2 @@
+model,evaluation,roc_auc,pr_auc,f1,mcc,precision,recall_sensitivity,specificity,tn,fp,fn,tp
+eegcnn1d,grouped_logo,,0.0,0.0,0.0,0.0,0.0,1.0,137538,0,0,0

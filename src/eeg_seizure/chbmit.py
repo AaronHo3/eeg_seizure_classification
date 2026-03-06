@@ -17,8 +17,9 @@ class ChbmitRecord:
 
 
 _FILE_RE = re.compile(r"^File Name:\s*(.+)$", re.IGNORECASE)
-_START_RE = re.compile(r"^Seizure\s+\d+\s+Start Time:\s*(\d+(?:\.\d+)?)\s*seconds", re.IGNORECASE)
-_END_RE = re.compile(r"^Seizure\s+\d+\s+End Time:\s*(\d+(?:\.\d+)?)\s*seconds", re.IGNORECASE)
+# CHB-MIT uses "Seizure Start Time:" (no digit) or "Seizure 1 Start Time:"
+_START_RE = re.compile(r"^Seizure\s+(?:\d+\s+)?Start Time:\s*(\d+(?:\.\d+)?)\s*seconds", re.IGNORECASE)
+_END_RE = re.compile(r"^Seizure\s+(?:\d+\s+)?End Time:\s*(\d+(?:\.\d+)?)\s*seconds", re.IGNORECASE)
 
 
 def _normalize_file_key(name: str) -> str:

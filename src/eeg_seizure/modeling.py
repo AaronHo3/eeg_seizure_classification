@@ -78,7 +78,6 @@ def make_models(random_state: int = 42) -> dict[str, object]:
                     early_stopping=True,
                     validation_fraction=0.15,
                     n_iter_no_change=15,
-                    class_weight="balanced",
                     random_state=random_state,
                 ),
             ),

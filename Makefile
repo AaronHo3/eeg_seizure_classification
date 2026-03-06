@@ -95,7 +95,7 @@ train: setup
 		--out-dir $(RUNS_DIR) \
 		--cv $(CV) \
 		--n-splits $(N_SPLITS) \
-		$(if $(filter 1 true TRUE yes YES,$(INCLUDE_RANDOM_BASELINE)),--include-random-baseline,)
+		$(if $(filter 0 false FALSE no NO,$(INCLUDE_RANDOM_BASELINE)),--disable-random-baseline,)
 
 train-dl: setup
 	$(ACTIVATE) && python scripts/train_dl.py \

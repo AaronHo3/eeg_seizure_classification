@@ -144,7 +144,7 @@ Outputs:
 - `cm_<model>.png`
 - `per_patient_<model>.csv`
 
-## 6) Deep Learning Pipeline (Budget-Friendly)
+## 6) Deep Learning Pipeline 
 
 Prepare tensor windows:
 
@@ -186,7 +186,39 @@ DL artifacts are created in `reports/runs_dl/<timestamp>/`:
 - `predictions_eegcnn1d.csv`
 - `model_eegcnn_fold*.pt`
 
+## Results (CHB-MIT subset: chb01, chb02, chb03)
+
+Leave-one-patient-out (grouped LOGO) on 3 patients. Heavy class imbalance (seizure windows under 1% of total).
+
+### Classical ML (engineered features)
+
+| Model                 | ROC AUC | PR AUC | F1   | Recall (sensitivity) | Specificity |
+|-----------------------|--------:|-------:|-----:|----------------------|------------:|
+| Soft voting ensemble  |   0.89  |  0.38  | 0.43 | 0.32                 |        1.00 |
+| MLP                   |   0.93  |  0.38  | 0.46 | 0.50                 |        1.00 |
+| Logistic regression   |   0.86  |  0.23  | 0.06 | 0.72                 |        0.94 |
+| Random forest         |   0.91  |  0.19  | 0.07 | 0.04                 |        1.00 |
+| kNN                   |   0.78  |  0.33  | 0.39 | 0.26                 |        1.00 |
+
+The soft voting ensemble and MLP give the best trade-off on this subset. Random split baselines (not shown) score much higher and indicate leakage if used without grouped CV.
+
+### Deep learning (1D CNN on raw windows)
+
+| Model     | ROC AUC | PR AUC | F1   | Recall | Specificity |
+|-----------|--------:|-------:|-----:|-------:|------------:|
+| EEGCNN1D  |   0.61  |  0.006 | 0.02 | 0.12   |        0.97 |
+
+The CNN underperforms the classical pipeline on this small subset, likely due to limited data and no class weighting for the minority (seizure) class.
+
+### Next steps
+
+- **Class imbalance:** Add class weights (or focal loss) in the DL loss and consider oversampling/undersampling for both pipelines.
+- **More data:** Download more patients (e.g. `make download-subset DOWNLOAD_PATIENTS="chb01 chb02 chb03 chb04 chb05"`) and re-run prepare + train + eval.
+- **DL tuning:** Try more epochs, learning rate, or a slightly larger 1D CNN; add early stopping and class-weighted cross-entropy.
+- **Per-model figures:** Run `make eval RUN=reports/runs/<timestamp> MODEL=<name>` for each classical model to generate ROC/PR/CM plots (e.g. `MODEL=soft_voting_ensemble`, `MODEL=mlp`).
+
 ## Notes
+
 - Grouped CV keeps each patient fully in either train or test, preventing leakage.
 - Random split baseline is included to quantify the optimism gap.
 - Feature extraction aggregates per-channel descriptors using mean/std/max to support variable channel availability.

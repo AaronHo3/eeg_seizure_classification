@@ -24,8 +24,9 @@ def parse_args() -> argparse.Namespace:
 
 
 def per_patient_metrics(df: pd.DataFrame) -> pd.DataFrame:
+    group_col = "group" if "group" in df.columns else "patient_id"
     rows = []
-    for group, part in df.groupby("group"):
+    for group, part in df.groupby(group_col):
         y_true = part["y_true"].to_numpy()
         y_pred = part["y_pred"].to_numpy()
         if len(np.unique(y_true)) < 2:
@@ -48,7 +49,10 @@ def per_patient_metrics(df: pd.DataFrame) -> pd.DataFrame:
                 "specificity": specificity,
             }
         )
-    return pd.DataFrame(rows).sort_values("patient_id")
+    result = pd.DataFrame(rows)
+    if result.empty:
+        return result
+    return result.sort_values("patient_id")
 
 
 def main() -> None:

@@ -39,11 +39,11 @@ def _hjorth_params(x: np.ndarray) -> tuple[float, float, float]:
 
 def _bandpowers(x: np.ndarray, fs: float) -> dict[str, float]:
     freqs, pxx = welch(x, fs=fs, nperseg=min(len(x), int(2 * fs)))
-    total_power = np.trapz(pxx, freqs) + 1e-12
+    total_power = np.trapezoid(pxx, freqs) + 1e-12
     out: dict[str, float] = {}
     for name, (fmin, fmax) in BANDS.items():
         mask = (freqs >= fmin) & (freqs < fmax)
-        bp = np.trapz(pxx[mask], freqs[mask]) if np.any(mask) else 0.0
+        bp = np.trapezoid(pxx[mask], freqs[mask]) if np.any(mask) else 0.0
         out[name] = float(bp / total_power)
     return out
 

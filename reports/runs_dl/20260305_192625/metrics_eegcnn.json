@@ -1,0 +1,13 @@
+{
+  "roc_auc": NaN,
+  "pr_auc": 0.0,
+  "f1": 0.0,
+  "mcc": 0.0,
+  "precision": 0.0,
+  "recall_sensitivity": 0.0,
+  "specificity": 1.0,
+  "tn": 137538,
+  "fp": 0,
+  "fn": 0,
+  "tp": 0
+}

@@ -100,7 +100,7 @@ python scripts/prepare_data.py \
 
 ## 4) Train + Cross-Validate
 
-Leave-one-patient-out (recommended):
+Leave-one-patient-out:
 
 ```bash
 python scripts/train.py \
